@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toast message</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="icon" type="image/x-icon" href="./assets/img/breads.png">
+</head>
+
+<body>
+
+    <div id="toast"></div> 
+    
+    <div class="btns__group">
+        <div class="btn btn--success" onclick="showSuccessToast()"> success </div>
+        <div class="btn btn--error" onclick="showErrorToast()"> error </div>
+        <div class="btn btn--info" onclick="showInfoToast()"> info </div>
+        <div class="btn btn--warn" onclick="showWarnToast()"> warn </div>
+        <div class="btn btn--info btn--disabled"> disabled </div>
+    </div>
+
+    <script>
+        var main = document.querySelector('#toast');
+        function toast({
+            state = 'success', 
+            title = 'Thành công !', 
+            desc = 'Chúc bạn may mắn lần sau', 
+        }) {
+            if(main) {
+                var toastBody = document.createElement('div');
+                toastBody.classList.add('toast');
+                icons = {
+                   success:'fa-solid fa-circle-check',
+                   info:'fa-solid fa-circle-info',
+                   error:'fa-solid fa-circle-exclamation',
+                   warn:'fa-solid fa-triangle-exclamation',
+                }
+                toastBody.classList.add(`toast--${state}`); 
+                toastBody.innerHTML = 
+                `<div class="toast__icon">
+                        <i class="${icons[state]}"></i>
+                    </div>
+                    <div class="toast__body">
+                        <div class="toast__title"> ${title} </div>
+                        <div class="toast__desc">${desc}</div>
+                    </div>
+                    <div class="toast__close">
+                        <i class="fa-solid fa-xmark"></i>
+                </div>`;
+                main.appendChild(toastBody); 
+
+                toastBody.onclick = function(event) {
+                    if(event.target.closest('.toast__close')){
+                        main.removeChild(toastBody); 
+                    }
+                }
+        
+                setTimeout(function() {
+                    if(main.contains(toastBody))
+                        main.removeChild(toastBody); 
+                }, 4000)
+            }
+        }
+
+        function showSuccessToast() {
+            toast({
+                state : 'success', 
+                title : 'Thành công !', 
+                desc : 'Chúc bạn may mắn lần sau', 
+            })
+        }
+
+        function showErrorToast() {
+            toast({
+                state : 'error', 
+                title : 'Error !', 
+                desc : 'Chúc bạn may mắn lần sau', 
+            })
+        }
+
+        function showInfoToast() {
+            toast({
+                state : 'info', 
+                title : 'Information !', 
+                desc : 'Chúc bạn may mắn lần sau', 
+            })
+        } 
+
+        function showWarnToast() {
+            toast({
+                state : 'warn', 
+                title : 'FBI Warning !', 
+                desc : 'Chúc bạn may mắn lần sau', 
+            })
+        } 
+
+    </script>
+</body>
+
+</html>
